@@ -6,7 +6,10 @@ app.set('view engine', 'ejs');
 
 // djhome page
 app.get('/', function(req, res) {
-    res.render('djhome');
+  var dj = {firstName: 'John', lastName: 'Smith'}
+    res.render('djhome',{
+    dj:dj,
+});
   });
 
 // djprofiles page

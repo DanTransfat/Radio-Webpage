@@ -39,7 +39,7 @@
 
         document.addEventListener("DOMContentLoaded", function(){
             const dj = {
-                firstName: "John",
+                firstName: "Snow",
                 lastName: "Smith",
                 current: "False"
             };
@@ -157,7 +157,7 @@
       <div class="songcontrols">
         <div class="songlabels">
           <p class="left">Live Radio</p>
-          <p class="right" id="djName"></p>
+          <p class="right">Current DJ: <%= dj.firstName %> <%= dj.lastName %></p>
         </div>
         <div class="player">
           <audio controls id="radioPlayer">
