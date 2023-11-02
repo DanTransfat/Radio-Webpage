@@ -3,7 +3,7 @@ const scrollContainer = document.querySelector('.scrollcontainer');
 
 function createImage(){
     const img = document.createElement('img');
-    img.src = 'template.jpg';
+    img.src = 'https://raw.githubusercontent.com/edtton/RadioStation/main/template.jpg';
     return img; 
 }
 
