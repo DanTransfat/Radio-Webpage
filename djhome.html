@@ -15,6 +15,52 @@
       font-family: "Montserrat", serif;
     }
   </style>
+  <script>
+        window.onload = function() {
+            document.getElementById('userpfp').addEventListener('click', function (e) {
+                alert('DJ profile page not available yet!\nPlease check back soon!');
+            });
+
+            const searchInput = document.getElementById('search');
+            searchInput.addEventListener('keydown', function(event) {
+                if(event.key == 'Enter') {
+                    const searchTerm = searchInput.value.trim(); 
+                    if(searchTerm === "") {
+                        alert("Please enter a value to search for.");
+                    }
+                    else {
+                        alert('Searching for ' + searchTerm);
+                    }
+                }
+            });
+        };
+
+        document.addEventListener("DOMContentLoaded", function(){
+            const dj = {
+                firstName: "John",
+                lastName: "Smith",
+                current: "False"
+            };
+
+            const djName = document.getElementById("djName");
+            djName.textContent = "Current DJ: " + dj.firstName + " " + dj.lastName;
+            dj.current = "True";
+        })
+
+        function addSong() {
+            const add = document.getElementById('preferencesadd');
+            add.disabled = true; 
+            const remove = document.getElementById('preferencesremove');
+            remove.disabled = false; 
+        }
+
+        function removeSong() {
+            const add = document.getElementById('add');
+            add.disabled = false; 
+            const remove = document.getElementById('remove');
+            remove.disabled = true; 
+        }
+    </script>
 </head>
 
 <body>
@@ -34,7 +80,7 @@
       <input type="text" placeholder="Search for songs" class="searchbar">
 
       <div class="usercluster">
-        <img src="https://raw.githubusercontent.com/edtton/RadioStation/main/template.jpg">
+        <img src="https://raw.githubusercontent.com/edtton/RadioStation/main/template.jpg" id="djpfp>
         <nav class="userbuttons">
           <button class="userbutton">
             <a href="djprofile.html">Profile</a>
@@ -119,10 +165,10 @@
         </div>
       </div>
 
-      <!--             <div class="songactions">
-                <button class="songaction">Add to Preferences</button>
-                <button class="songaction">Remove from Preferences</button>
-            </div> -->
+     <div class="songactions">
+                <button class="songaction" id="add" onclick="addPref()">Add to Queue</button>
+                <button class="songaction" id="remove" disabled = true onclick="removePref()">Remove from Queue</button>
+      </div>
     </header>
   </div>
 </body>
