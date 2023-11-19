@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Top Songs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+  <script><%- include('../static/script.js'); %></script>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      background-color: lightgray;
+      font-family: "Montserrat", serif;
+    }
+    <%- include('../static/styles.css'); %>
+  </style>
+  <script>
+    document.getElementById('userpfp').addEventListener('click', function (e) {
+        alert('User profile page not available yet!\nPlease check back soon!');
+    });
+
+    const searchInput = document.getElementById('search');
+    searchInput.addEventListener('keydown', function(event) {
+        if(event.key == 'Enter') {
+            const searchTerm = searchInput.value.trim(); 
+            if(searchTerm === "") {
+                alert("Please enter a value to search for.");
+            }
+            else {
+                alert('Searching for ' + searchTerm);
+            }
+        }
+    });
+
+document.addEventListener("DOMContentLoaded", function(){
+    const dj = {
+        firstName: "Bruno",
+        lastName: "Mars",
+        current: "False"
+    };
+
+    const djName = document.getElementById("djName");
+    djName.textContent = "Current DJ: " + dj.firstName + " " + dj.lastName;
+    dj.current = "True";
+})
+
+function addQueue() {
+    const add = document.getElementById('queueadd');
+    add.disabled = true; 
+    const remove = document.getElementById('queueremove');
+    remove.disabled = false; 
+}
+
+function removeQueue() {
+    const add = document.getElementById('queueadd');
+    add.disabled = false; 
+    const remove = document.getElementById('queueremove');
+    remove.disabled = true; 
+}
+</script>
+</head>
+
+<body>
+  <div class="topheader">
+    <header class="top-banner">
+      <a href="" class="logo" style="margin-right: auto;">
+        <img src="https://raw.githubusercontent.com/edtton/RadioStation/main/template.jpg">
+      </a>
+      <% if (username) { %>
+        <p><%= username %></p>
+       <% } %>
+      <nav class="navbuttons">
+        <ul>
+          <li><a href="/?username=<%= username %>" class="navbutton">Home</a></li>
+          <li><a href="/topsongs?username=<%= username %>" class="navbutton">Top Songs</a></li>
+        </ul>
+      </nav>
+
+      <input type="text" placeholder="Search for songs" class="searchbar">
+
+      <div class="usercluster">
+        <img src="https://raw.githubusercontent.com/edtton/RadioStation/main/template.jpg">
+        <nav class="userbuttons">
+          <button class="userbutton">
+            <a href="/djprofile?username=<%= username %>">Profile</a>
+          </button>
+          <button class="userbutton">
+            <a href="/djsettings?username=<%= username %>">Settings</a>
+          </button>
+          <button class="userbutton">
+            <a href="/logout">Logout</a>
+        </button>
+        </nav>
+      </div>
+    </header>
+  </div>
+
+  <div class="upcomingsongs">
+    <h2>Top Songs:</h2>
+    <div class="scrollcontainer">
+      <div class="songThumbnail">
+        <img src="https://raw.githubusercontent.com/edtton/RadioStation/main/template.jpg">
+        <h3>Song Title</h3>
+      </div>
+      <div class="songThumbnail">
+        <img src="https://raw.githubusercontent.com/edtton/RadioStation/main/template.jpg">
+        <h3>Song Title</h3>
+      </div>
+      <div class="songThumbnail">
+        <img src="https://raw.githubusercontent.com/edtton/RadioStation/main/template.jpg">
+        <h3>Song Title</h3>
+      </div>
+      <div class="songThumbnail">
+        <img src="https://raw.githubusercontent.com/edtton/RadioStation/main/template.jpg">
+        <h3>Song Title</h3>
+      </div>
+      <div class="songThumbnail">
+        <img src="https://raw.githubusercontent.com/edtton/RadioStation/main/template.jpg">
+        <h3>Song Title</h3>
+      </div>
+    </div>
+    <br>
+    <h2>Top Artists:</h2>
+    <div class="songcontainer">
+      <div class="songthumbnail">
+        <img src="https://raw.githubusercontent.com/edtton/RadioStation/main/template.jpg">
+        <h4>Artist Name</h4>
+      </div>
+      <div class="songthumbnail">
+        <img src="https://raw.githubusercontent.com/edtton/RadioStation/main/template.jpg">
+        <h4>Artist Name</h4>
+      </div>
+      <div class="songthumbnail">
+        <img src="https://raw.githubusercontent.com/edtton/RadioStation/main/template.jpg">
+        <h4>Artist Name</h4>
+      </div>
+      <div class="songthumbnail">
+        <img src="https://raw.githubusercontent.com/edtton/RadioStation/main/template.jpg">
+        <h4>Artist Name</h4>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottomheader">
+    <header class="bottom-banner">
+      <div class="songdetails">
+        <div class="albumimage">
+          <img src="https://raw.githubusercontent.com/edtton/RadioStation/main/template.jpg">
+        </div>
+        <div class="songinfo">
+          <h2>Song Title</h2>
+          <h4>Artist Name</h4>
+          <p>"Album Name"</p>
+        </div>
+      </div>
+
+      <div class="songcontrols">
+        <div class="songlabels">
+          <p class="left">Live Radio</p>
+          <p class="right">Current DJ: John Doe</p>
+        </div>
+        <div class="player">
+          <audio controls id="radioPlayer">
+            <source src="https://playerservices.streamtheworld.com/api/livestream-redirect/WETAFM.mp3" type=audio/mpeg>
+            Your browser does not support the audio element.
+          </audio>
+        </div>
+      </div>
+
+      <!--             <div class="songactions">
+                <button class="songaction">Add to Preferences</button>
+                <button class="songaction">Remove from Preferences</button>
+            </div> -->
+    </header>
+  </div>
+</body>
+
+</html>
