@@ -1,0 +1,119 @@
+<div class="bottomheader">
+    <header class="bottom-banner">
+        <div class="songdetails">
+            <div class="albumimage">
+                <img src="/images/template.jpg">
+            </div>
+            <div class="songinfo">
+                <h2 id="songTitle">Loading...</h2>
+                <h4 id="artistName">Loading...</h4>
+                <p id="albumName">Loading...</p>
+            </div>
+        </div>
+
+        <div class="songcontrols">
+            <div class="songlabels">
+                <p class="left">Live Radio</p>
+                <p class="right" id="djName"></p>
+            </div>
+            <div class="player">
+                <audio controls id="radioPlayer">
+                    <source src="https://playerservices.streamtheworld.com/api/livestream-redirect/WETAFM.mp3"
+                        type=audio/mpeg>
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+
+        <div class="songactions">
+            <button class="songaction" id="songadd" onclick="addSong()">Add to Queue</button>
+            <button class="songaction" id="songremove" onclick="removeSong()">Remove from
+                Queue</button>
+        </div>
+    </header>
+</div>
+
+<script>
+    let currentSongId;
+
+    document.addEventListener('DOMContentLoaded', async function () {
+        try {
+            const response = await fetch('/getRandomSong');
+            const data = await response.json();
+
+            if (data && data.name && data.artist) {
+                // Update the content of the songinfo div
+                document.getElementById('songTitle').textContent = data.name;
+                document.getElementById('artistName').textContent = data.artist;
+                document.getElementById('albumName').textContent = data.album || '';
+
+                currentSongId = data._id;
+            }
+            else {
+                console.error('Error fetching random song:', data);
+            }
+        }
+        catch (error) {
+            console.error('Error fetching random song:', error);
+        }
+    });
+
+    // Pass the current song's ID to addPref when the button is clicked
+    function addSong() {
+        // Now, send the current song's ID to the server
+        fetch('/addSong', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ songId: currentSongId }),  // Use 'songId' as the key
+        })
+            .then(response => {
+                if (response.ok) {
+                    location.reload();
+                    return response.json();
+                } 
+                else {
+                    return response.json().then(error => Promise.reject(error));
+                }
+            })
+            .then(data => {
+                console.log(data.message);
+                alert(data.message); // Display a message to the user
+            })
+            .catch(error => {
+                console.error('Error adding preferred song:', error);
+                alert(`Error: ${error.message}`); // Display an error message to the user
+            });
+            
+    }
+
+    function removeSong() {
+        // Now, send the current song's ID to the server
+        fetch('/removeSong', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ songId: currentSongId }),  // Use 'songId' as the key
+        })
+            .then(response => {
+                if (response.ok) {
+                    // location.reload();
+                    return response.json();
+                } 
+                else {
+                    return response.json().then(error => Promise.reject(error));
+                }
+            })
+            .then(data => {
+                console.log(data.message);
+                alert(data.message); // Display a message to the user
+            })
+            .catch(error => {
+                console.error('Error removing song from preferences:', error);
+                alert(`Error: ${error.message}`); // Display an error message to the user
+            });
+            
+    }
+</script>
