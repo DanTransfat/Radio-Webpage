@@ -43,14 +43,33 @@ const songSchema = new Schema({
 const DJ = mongoose.model('DJ', djSchema);
 const Song = mongoose.model('Song', songSchema);
 
+// const newDJ = new DJ({
+//     username: 'dan',
+//     password: '123',
+//     firstName: 'Daniel',
+//     email: 'dan@gmail.com',
+//     songQueue: [],
+// });
+
+// newDJ.save();
+
+const newSong = Song({
+    name: 'jingle bells',
+    artist: 'santa',
+    album: 'christmas',
+    duration: 125
+})
+
+newSong.save();
+
 async function updateExistingDJs() {
     try {
-        const dj = await DJ.find();
+        const djs = await DJ.find();
 
         for (const dj of djs) {
-            // If user.preferences is not an array, convert it to an array
-            if (!Array.isArray(dj.preferences)) {
-                dj.preferences = [dj.preferences];
+            // If queue is not an array, convert it to an array
+            if (!Array.isArray(dj.queue)) {
+                dj.queue = [dj.queue];
             }
 
             await dj.save();
@@ -65,10 +84,10 @@ async function updateExistingDJs() {
 
 updateExistingDJs();
 
-app.get('/djhome', function (req, res) {
+app.get('/', function (req, res) {
     // Check if the user is logged in before rendering the home page
     if (req.session.username) {
-        res.render('views/djhome', { username: req.session.username });
+        res.render('pages/djhome', { username: req.session.username });
     }
     else {
         res.redirect('/login');
@@ -78,7 +97,7 @@ app.get('/djhome', function (req, res) {
 app.get('/djprofile', function (req, res) {
     // Check if the user is logged in before rendering the profile page
     if (req.session.username) {
-        res.render('view/djprofile', { username: req.session.username });
+        res.render('pages/djprofile', { username: req.session.username });
     }
     else {
         res.redirect('/login');
@@ -86,19 +105,19 @@ app.get('/djprofile', function (req, res) {
 });
 
 app.get('/djsettings', function (req, res) {
-    res.render('view/djsettings');
+    res.render('pages/djsettings');
 });
 
 
-// app.get('/edit', function (req, res) {
+// app.get('/topsongs', function (req, res) {
 //     if (req.session.currentSongId) {
-//         res.render('pages/edit', { songId: req.session.currentSongId });
+//         res.render('pages/topsongs', { songId: req.session.currentSongId });
 //     }
 // });
 
 // Login page route
 app.get('/login', function (req, res) {
-    res.render('views/login', { message: '' });
+    res.render('pages/login', { message: '' });
 });
 
 // Login post route
@@ -110,10 +129,10 @@ app.post('/login', function (req, res) {
             if (dj) {
                 // Store username in the session
                 req.session.username = username;
-                res.redirect('/home');
+                res.redirect('/');
             }
             else {
-                res.render('views/login', { message: 'Login failed. Please try again.' });
+                res.render('pages/login', { message: 'Login failed. Please try again.' });
             }
         })
         .catch(err => {
