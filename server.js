@@ -53,14 +53,14 @@ const Song = mongoose.model('Song', songSchema);
 
 // newDJ.save();
 
-const newSong = Song({
-    name: 'jingle bells',
-    artist: 'santa',
-    album: 'christmas',
-    duration: 125
-})
+// const newSong = Song({
+//     name: 'jingle bells',
+//     artist: 'santa',
+//     album: 'christmas',
+//     duration: 125
+// })
 
-newSong.save();
+// newSong.save();
 
 async function updateExistingDJs() {
     try {
@@ -291,28 +291,22 @@ app.post('/addSong', async (req, res) => {
     try {
         const username = req.session.username;
         const dj = await DJ.findOne({ username }).exec();
-
         if (!dj) {
             return res.status(404).json({ message: 'DJ not found.' });
         }
-
-        const songId = req.body.songId;
-        console.log('Received request body:', req.body.songId);
-
-        if (dj.preferences.includes(songId)) {
-            return res.status(400).json({ message: 'Song is already in preferences.' });
-        }
-        else {
-            dj.songQueue.push(songId);
-        }
-        await dj.save();
-
-        res.json({ message: 'Song added to queue.' });
-    }
-    catch (error) {
-        console.error('Error adding song to queue:', error);
+        const { name, artist, album, duration } = req.body;
+    
+        // Create a new Song instance
+        const newSong = new Song({ name, artist, album, duration });
+    
+        // Save the new song to the database
+        await newSong.save();
+    
+        res.status(201).json({ message: 'Song added successfully' });
+      } catch (error) {
+        console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
-    }
+      }
 });
 
 app.post('/removeSong', async (req, res) => {
